@@ -4,9 +4,8 @@ import './Hero.css'
 const Hero = () => {
   const [logoError, setLogoError] = useState(false)
   
-  // Tenta usar o logo do caminho absoluto, com fallback para /public
+  // Logo deve estar na pasta public para ser acessível
   const logoPath = '/fonte-code-logo.png'
-  const absoluteLogoPath = 'C:\\Users\\almir\\Downloads\\fonte-code-logo.png'
 
   return (
     <section className="hero">
@@ -17,14 +16,9 @@ const Hero = () => {
               src={logoPath}
               alt="Fonte Code Logo" 
               className="hero-logo"
-              onError={(e) => {
-                // Tenta o caminho absoluto como fallback
-                const target = e.target as HTMLImageElement
-                if (target.src !== absoluteLogoPath) {
-                  target.src = absoluteLogoPath
-                } else {
-                  setLogoError(true)
-                }
+              onError={() => {
+                // Se a imagem não carregar, mostra o placeholder
+                setLogoError(true)
               }}
             />
           ) : (
