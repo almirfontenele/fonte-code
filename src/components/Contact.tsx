@@ -1,5 +1,7 @@
 import { useState, FormEvent } from 'react'
-import { FaEnvelope, FaWhatsapp, FaUser, FaPhone, FaPaperPlane } from 'react-icons/fa'
+import { FaEnvelope, FaWhatsapp, FaUser, FaPhone, FaPaperPlane, FaSpinner } from 'react-icons/fa'
+import emailjs from '@emailjs/browser'
+import { emailjsConfig } from '../config/emailjs'
 import './Contact.css'
 
 const Contact = () => {
@@ -10,25 +12,65 @@ const Contact = () => {
     message: ''
   })
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    
-    // Criar link mailto
-    const subject = encodeURIComponent(`Contato do Site - ${formData.name}`)
-    const body = encodeURIComponent(
-      `Nome: ${formData.name}\n` +
-      `Email: ${formData.email}\n` +
-      `Telefone: ${formData.phone}\n\n` +
-      `Mensagem:\n${formData.message}`
-    )
-    
-    window.location.href = `mailto:almirafo@gmail.com?subject=${subject}&body=${body}`
-    
-    setSubmitted(true)
-    setFormData({ name: '', email: '', phone: '', message: '' })
-    
-    setTimeout(() => setSubmitted(false), 5000)
+    setError(null)
+    setLoading(true)
+
+    try {
+      // Verificar se as credenciais do EmailJS estão configuradas
+      if (!emailjsConfig.publicKey || !emailjsConfig.serviceId || !emailjsConfig.templateId) {
+        // Fallback para mailto se EmailJS não estiver configurado
+        const subject = encodeURIComponent(`Contato do Site - ${formData.name}`)
+        const body = encodeURIComponent(
+          `Nome: ${formData.name}\n` +
+          `Email: ${formData.email}\n` +
+          `Telefone: ${formData.phone}\n\n` +
+          `Mensagem:\n${formData.message}`
+        )
+        window.location.href = `mailto:${emailjsConfig.toEmail}?subject=${subject}&body=${body}`
+        setSubmitted(true)
+        setFormData({ name: '', email: '', phone: '', message: '' })
+        setTimeout(() => setSubmitted(false), 5000)
+        setLoading(false)
+        return
+      }
+
+      // Inicializar EmailJS
+      emailjs.init(emailjsConfig.publicKey)
+
+      // Preparar os parâmetros do template
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        phone: formData.phone || 'Não informado',
+        message: formData.message,
+        to_email: emailjsConfig.toEmail,
+        reply_to: formData.email
+      }
+
+      // Enviar email
+      await emailjs.send(
+        emailjsConfig.serviceId,
+        emailjsConfig.templateId,
+        templateParams
+      )
+
+      // Sucesso
+      setSubmitted(true)
+      setFormData({ name: '', email: '', phone: '', message: '' })
+      setTimeout(() => {
+        setSubmitted(false)
+      }, 5000)
+    } catch (err) {
+      console.error('Erro ao enviar email:', err)
+      setError('Erro ao enviar mensagem. Por favor, tente novamente ou entre em contato diretamente por email.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -125,13 +167,30 @@ const Contact = () => {
                 placeholder="Conte-nos sobre seu projeto..."
               />
             </div>
-            {submitted && (
-              <div className="success-message">
-                ✓ Mensagem enviada! Verifique seu cliente de email.
+            {error && (
+              <div className="error-message">
+                {error}
               </div>
             )}
-            <button type="submit" className="submit-button">
-              <FaPaperPlane /> Enviar Mensagem
+            {submitted && (
+              <div className="success-message">
+                ✓ Mensagem enviada com sucesso! Entraremos em contato em breve.
+              </div>
+            )}
+            <button 
+              type="submit" 
+              className="submit-button"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <FaSpinner className="spinner" /> Enviando...
+                </>
+              ) : (
+                <>
+                  <FaPaperPlane /> Enviar Mensagem
+                </>
+              )}
             </button>
           </form>
         </div>
