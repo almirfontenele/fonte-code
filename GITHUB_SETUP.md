@@ -1,50 +1,58 @@
-# Como Publicar no GitHub
+# Como Publicar no GitHub Pages
 
-O repositório Git já foi inicializado e o commit inicial foi feito. Agora siga estes passos:
+O projeto está configurado para deploy automático no GitHub Pages!
 
-## Opção 1: Via Interface Web do GitHub (Recomendado)
+## ✅ Configuração Automática
 
-1. **Crie um novo repositório no GitHub:**
-   - Acesse https://github.com/new
-   - Nome do repositório: `fonte-code-landing` (ou outro nome de sua preferência)
-   - Deixe como **público** ou **privado** (sua escolha)
-   - **NÃO** marque "Initialize this repository with a README"
-   - Clique em "Create repository"
+O projeto já possui:
+- ✅ Workflow de deploy configurado (`.github/workflows/deploy.yml`)
+- ✅ Base path configurado no `vite.config.ts` (`/fonte-code/`)
+- ✅ Caminhos de assets corrigidos para funcionar no GitHub Pages
+- ✅ Build testado e funcionando
 
-2. **Conecte seu repositório local ao GitHub:**
-   O remote já está configurado! Após criar o repositório no GitHub, execute:
+## 🚀 Passos para Publicar
 
-```bash
-git push -u origin main
-```
+### 1. Configurar GitHub Pages no Repositório
 
-**Nota:** O remote já está configurado para: `https://github.com/almirfontenele/fonte-code-landing.git`
+1. Acesse seu repositório no GitHub: `https://github.com/almirfontenele/fonte-code`
+2. Vá em **Settings** → **Pages**
+3. Em **Source**, selecione:
+   - **Source**: `GitHub Actions`
+4. Salve as configurações
 
-## Opção 2: Via GitHub CLI (se instalar)
+### 2. Fazer Push do Código
 
-Se você instalar o GitHub CLI (`gh`), pode executar:
-
-```bash
-gh repo create fonte-code-landing --public --source=. --remote=origin --push
-```
-
-## Verificar Status
-
-Para verificar se tudo está conectado corretamente:
-
-```bash
-git remote -v
-```
-
-Isso deve mostrar a URL do seu repositório GitHub.
-
-## Próximos Commits
-
-Para futuras atualizações:
+O workflow será executado automaticamente quando você fizer push para a branch `main`:
 
 ```bash
 git add .
-git commit -m "Descrição das alterações"
+git commit -m "Preparar para GitHub Pages"
 git push
 ```
 
+### 3. Verificar Deploy
+
+1. Acesse a aba **Actions** no GitHub para ver o progresso do deploy
+2. Aguarde alguns minutos para o build e deploy completarem
+3. Seu site estará disponível em: `https://almirfontenele.github.io/fonte-code/`
+
+## 📝 Notas Importantes
+
+- O deploy é automático a cada push na branch `main`
+- Você também pode executar o workflow manualmente na aba **Actions** → **Deploy to GitHub Pages** → **Run workflow**
+- O build local pode ser testado com: `npm run build`
+- Para testar localmente como ficará no GitHub Pages: `npm run preview`
+
+## 🔧 Configurações Técnicas
+
+- **Base Path**: `/fonte-code/` (configurado no `vite.config.ts`)
+- **Build Output**: `dist/` (gerado automaticamente)
+- **Node Version**: 20 (configurado no workflow)
+
+## 🐛 Troubleshooting
+
+Se o site não aparecer:
+1. Verifique se o GitHub Pages está habilitado nas configurações do repositório
+2. Verifique se o workflow foi executado com sucesso na aba **Actions**
+3. Aguarde alguns minutos - o deploy pode levar até 5 minutos
+4. Verifique se a URL está correta: `https://almirfontenele.github.io/fonte-code/`
