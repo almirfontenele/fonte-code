@@ -12,13 +12,13 @@ O repositório Git já foi inicializado e o commit inicial foi feito. Agora siga
    - Clique em "Create repository"
 
 2. **Conecte seu repositório local ao GitHub:**
-   Execute os seguintes comandos no terminal (substitua `SEU_USUARIO` pelo seu username do GitHub):
+   O remote já está configurado! Após criar o repositório no GitHub, execute:
 
 ```bash
-git remote add origin https://github.com/SEU_USUARIO/fonte-code-landing.git
-git branch -M main
 git push -u origin main
 ```
+
+**Nota:** O remote já está configurado para: `https://github.com/almirfontenele/fonte-code-landing.git`
 
 ## Opção 2: Via GitHub CLI (se instalar)
 
