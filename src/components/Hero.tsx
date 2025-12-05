@@ -5,7 +5,7 @@ const Hero = () => {
   const [logoError, setLogoError] = useState(false)
   
   // Logo deve estar na pasta public para ser acessível
-  const logoPath = '/fonte-code-logo.png'
+  const logoPath = `${import.meta.env.BASE_URL}fonte-code-logo.png`
 
   return (
     <section className="hero">
