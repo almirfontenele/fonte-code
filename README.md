@@ -1,0 +1,60 @@
+# Fonte Code - Landing Page
+
+Landing page profissional da Fonte Code, empresa especializada em desenvolvimento de sites e aplicativos web.
+
+## 🚀 Tecnologias
+
+- React 18
+- TypeScript
+- Vite
+- React Icons
+
+## 📦 Instalação
+
+1. Instale as dependências:
+```bash
+npm install
+```
+
+2. Copie o logo para a pasta `public`:
+   - Copie o arquivo `fonte-code-logo.png` de `C:\Users\almir\Downloads\` para a pasta `public/` do projeto
+   - Ou mantenha o logo no caminho original (funciona apenas localmente)
+
+## 🏃 Executar
+
+Para iniciar o servidor de desenvolvimento:
+
+```bash
+npm run dev
+```
+
+A aplicação estará disponível em `http://localhost:5173`
+
+## 🏗️ Build
+
+Para criar a build de produção:
+
+```bash
+npm run build
+```
+
+Os arquivos serão gerados na pasta `dist/`
+
+## 📋 Funcionalidades
+
+- ✅ Hero section impactante com logo
+- ✅ Seção de serviços
+- ✅ Seção sobre o CEO e competências técnicas
+- ✅ Formulário de contato (email e WhatsApp)
+- ✅ Design responsivo e moderno
+- ✅ Animações e transições suaves
+
+## 📧 Contato
+
+- **Email**: almirafo@gmail.com
+- **WhatsApp**: +55 11 99888-4534
+
+## 👨‍💼 CEO
+
+**Almir Fontenele** - Desenvolvedor com mais de 10 anos de experiência em desenvolvimento backend, focado em Java e NoSQL.
+
